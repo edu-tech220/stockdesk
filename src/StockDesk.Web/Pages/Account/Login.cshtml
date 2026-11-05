@@ -1,0 +1,34 @@
+@page
+@model StockDesk.Web.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<div class="form-card">
+    <h1>Iniciar sesión</h1>
+    <p class="muted">Ingrese sus credenciales de StockDesk.</p>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-error">@Model.ErrorMessage</div>
+    }
+
+    <form method="post">
+        <div class="field">
+            <label asp-for="Input.Username">Usuario</label>
+            <input asp-for="Input.Username" autocomplete="username" />
+            <span asp-validation-for="Input.Username" class="field-error"></span>
+        </div>
+        <div class="field">
+            <label asp-for="Input.Password">Contraseña</label>
+            <input asp-for="Input.Password" type="password" autocomplete="current-password" />
+            <span asp-validation-for="Input.Password" class="field-error"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Entrar</button>
+    </form>
+
+    <p class="muted small">
+        Usuario de desarrollo precargado: <code>admin</code> / <code>Admin123!</code>
+        (cámbielo antes de usar en un entorno real).
+    </p>
+</div>

@@ -1,0 +1,57 @@
+@page
+@model StockDesk.Web.Pages.Stock.IndexModel
+@{
+    ViewData["Title"] = "Dashboard de stock";
+}
+
+<h1>Niveles de stock por almacén</h1>
+
+<form method="get" class="filter-bar">
+    <div class="field inline">
+        <label for="warehouseId">Almacén</label>
+        <select name="warehouseId" id="warehouseId" onchange="this.form.submit()">
+            <option value="">Todos</option>
+            @foreach (var w in Model.Warehouses)
+            {
+                <option value="@w.Id" selected="@(Model.WarehouseId == w.Id)">@w.Code - @w.Name</option>
+            }
+        </select>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-error">@Model.ErrorMessage</div>
+}
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>SKU</th>
+            <th>Producto</th>
+            <th>Almacén</th>
+            <th>Cantidad</th>
+            <th>Costo promedio</th>
+            <th>Valor total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Result.Items)
+        {
+            <tr>
+                <td>@item.ProductSku</td>
+                <td>@item.ProductName</td>
+                <td>@item.WarehouseCode - @item.WarehouseName</td>
+                <td>@item.Quantity.ToString("N4")</td>
+                <td>@item.AverageCost.ToString("N4")</td>
+                <td>@((item.Quantity * item.AverageCost).ToString("N2"))</td>
+            </tr>
+        }
+        @if (Model.Result.Items.Count == 0)
+        {
+            <tr><td colspan="6" class="muted">No hay datos de stock para mostrar.</td></tr>
+        }
+    </tbody>
+</table>
+
+<partial name="_Pagination" model="@(new PaginationInfo(Model.Result.Page, Model.Result.TotalPages))" />

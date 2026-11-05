@@ -1,0 +1,78 @@
+@page
+@model StockDesk.Web.Pages.Kardex.IndexModel
+@{
+    ViewData["Title"] = "Kardex de producto";
+}
+
+<h1>Kardex (historial de movimientos)</h1>
+
+<form method="get" class="filter-bar">
+    <div class="field inline">
+        <label for="productId">Producto</label>
+        <select name="productId" id="productId" onchange="this.form.submit()">
+            <option value="">Seleccione un producto...</option>
+            @foreach (var p in Model.Products)
+            {
+                <option value="@p.Id" selected="@(Model.ProductId == p.Id)">@p.Sku - @p.Name</option>
+            }
+        </select>
+    </div>
+    <div class="field inline">
+        <label for="warehouseId">Almacén</label>
+        <select name="warehouseId" id="warehouseId" onchange="this.form.submit()">
+            <option value="">Todos</option>
+            @foreach (var w in Model.Warehouses)
+            {
+                <option value="@w.Id" selected="@(Model.WarehouseId == w.Id)">@w.Code - @w.Name</option>
+            }
+        </select>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-error">@Model.ErrorMessage</div>
+}
+
+@if (Model.ProductId.HasValue)
+{
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Fecha (UTC)</th>
+                <th>Tipo</th>
+                <th>Almacén</th>
+                <th>Destino</th>
+                <th>Cantidad</th>
+                <th>Costo unitario</th>
+                <th>Costo promedio resultante</th>
+                <th>Nota</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in Model.Result.Items)
+            {
+                <tr>
+                    <td>@m.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@m.Type</td>
+                    <td>@m.WarehouseName</td>
+                    <td>@(m.DestinationWarehouseName ?? "-")</td>
+                    <td>@m.Quantity.ToString("N4")</td>
+                    <td>@(m.UnitCost?.ToString("N4") ?? "-")</td>
+                    <td>@m.ResultingAverageCost.ToString("N4")</td>
+                    <td>@m.Note</td>
+                </tr>
+            }
+            @if (Model.Result.Items.Count == 0)
+            {
+                <tr><td colspan="8" class="muted">No hay movimientos para los filtros seleccionados.</td></tr>
+            }
+        </tbody>
+    </table>
+
+    <partial name="_Pagination" model="@(new PaginationInfo(Model.Result.Page, Model.Result.TotalPages))" />
+}
+else
+{
+    <p class="muted">Seleccione un producto para ver su kardex.</p>
+}

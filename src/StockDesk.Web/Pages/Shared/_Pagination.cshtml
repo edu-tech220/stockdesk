@@ -1,0 +1,17 @@
+@model StockDesk.Web.Models.PaginationInfo
+
+@if (Model.TotalPages > 1)
+{
+    <nav class="pagination">
+        @for (var p = 1; p <= Model.TotalPages; p++)
+        {
+            var query = Context.Request.Query
+                .Where(q => q.Key != "page")
+                .ToDictionary(q => q.Key, q => q.Value.ToString());
+            query["page"] = p.ToString();
+            var qs = string.Join("&", query.Select(kv => $"{kv.Key}={Uri.EscapeDataString(kv.Value)}"));
+
+            <a href="?@qs" class="page-link @(p == Model.Page ? "active" : "")">@p</a>
+        }
+    </nav>
+}

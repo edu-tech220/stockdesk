@@ -1,0 +1,268 @@
+:root {
+  --color-primary: #1f5c3f;
+  --color-primary-dark: #163f2b;
+  --color-bg: #f4f6f5;
+  --color-card: #ffffff;
+  --color-border: #d8dfdb;
+  --color-text: #1b1f1d;
+  --color-muted: #6b7570;
+  --color-error-bg: #fdecea;
+  --color-error-text: #8a1c1c;
+  --color-success-bg: #e8f5ec;
+  --color-success-text: #1f5c3f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.site-header {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.navbar {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.navbar .brand {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  color: #e7efe9;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #e7efe9;
+  font-size: 0.9rem;
+}
+
+.btn-logout {
+  color: white;
+  background-color: var(--color-primary-dark);
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+main.container {
+  padding-top: 1.5rem;
+  padding-bottom: 3rem;
+  min-height: 70vh;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: var(--color-primary-dark);
+}
+
+.muted {
+  color: var(--color-muted);
+}
+
+.small {
+  font-size: 0.85rem;
+}
+
+.form-card {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 1.25rem;
+  max-width: 480px;
+  margin-bottom: 1.5rem;
+}
+
+.form-card.collapsible {
+  max-width: none;
+}
+
+.field {
+  margin-bottom: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field.inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.field label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.field input,
+.field select {
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.field-error {
+  color: var(--color-error-text);
+  font-size: 0.8rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  border-radius: 4px;
+  border: none;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.alert-error {
+  background-color: var(--color-error-bg);
+  color: var(--color-error-text);
+  border: 1px solid #f3c2c2;
+}
+
+.alert-success {
+  background-color: var(--color-success-bg);
+  color: var(--color-success-text);
+  border: 1px solid #b9ddc5;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.data-table th {
+  background-color: #eef2f0;
+  font-weight: 600;
+}
+
+.data-table tr.alert-row {
+  background-color: var(--color-error-bg);
+}
+
+.pagination {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.page-link {
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--color-text);
+  background-color: var(--color-card);
+}
+
+.page-link.active {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tab-link {
+  padding: 0.5rem 0.25rem;
+  text-decoration: none;
+  color: var(--color-muted);
+  border-bottom: 2px solid transparent;
+}
+
+.tab-link.active {
+  color: var(--color-primary-dark);
+  border-bottom-color: var(--color-primary);
+  font-weight: 600;
+}
+
+code {
+  background-color: #eef2f0;
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+}

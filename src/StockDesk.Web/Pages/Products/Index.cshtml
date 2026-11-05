@@ -1,0 +1,74 @@
+@page
+@model StockDesk.Web.Pages.Products.IndexModel
+@{
+    ViewData["Title"] = "Catálogo de productos";
+}
+
+<h1>Catálogo de productos</h1>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-error">@Model.ErrorMessage</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+
+@if (Model.IsAdmin)
+{
+    <details class="form-card collapsible">
+        <summary>Registrar nuevo producto</summary>
+        <form method="post">
+            <div class="field">
+                <label asp-for="Input.Sku">SKU</label>
+                <input asp-for="Input.Sku" />
+            </div>
+            <div class="field">
+                <label asp-for="Input.Name">Nombre</label>
+                <input asp-for="Input.Name" />
+            </div>
+            <div class="field">
+                <label asp-for="Input.Description">Descripción</label>
+                <input asp-for="Input.Description" />
+            </div>
+            <div class="field">
+                <label asp-for="Input.Unit">Unidad</label>
+                <input asp-for="Input.Unit" placeholder="pieza, kg, litro..." />
+            </div>
+            <div class="field">
+                <label asp-for="Input.ReorderPoint">Punto de reorden</label>
+                <input asp-for="Input.ReorderPoint" type="number" min="0" />
+            </div>
+            <button type="submit" class="btn btn-primary">Crear producto</button>
+        </form>
+    </details>
+}
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>SKU</th>
+            <th>Nombre</th>
+            <th>Unidad</th>
+            <th>Punto de reorden</th>
+            <th>Activo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model.Products)
+        {
+            <tr>
+                <td>@p.Sku</td>
+                <td>@p.Name</td>
+                <td>@p.Unit</td>
+                <td>@p.ReorderPoint</td>
+                <td>@(p.IsActive ? "Sí" : "No")</td>
+            </tr>
+        }
+        @if (Model.Products.Count == 0)
+        {
+            <tr><td colspan="5" class="muted">No hay productos registrados.</td></tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,56 @@
+@page
+@model StockDesk.Web.Pages.LowStock.IndexModel
+@{
+    ViewData["Title"] = "Alertas de bajo stock";
+}
+
+<h1>Alertas de bajo stock</h1>
+<p class="muted">Productos cuya cantidad actual es menor o igual a su punto de reorden.</p>
+
+<form method="get" class="filter-bar">
+    <div class="field inline">
+        <label for="warehouseId">Almacén</label>
+        <select name="warehouseId" id="warehouseId" onchange="this.form.submit()">
+            <option value="">Todos</option>
+            @foreach (var w in Model.Warehouses)
+            {
+                <option value="@w.Id" selected="@(Model.WarehouseId == w.Id)">@w.Code - @w.Name</option>
+            }
+        </select>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-error">@Model.ErrorMessage</div>
+}
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>SKU</th>
+            <th>Producto</th>
+            <th>Almacén</th>
+            <th>Cantidad actual</th>
+            <th>Punto de reorden</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Result.Items)
+        {
+            <tr class="alert-row">
+                <td>@item.ProductSku</td>
+                <td>@item.ProductName</td>
+                <td>@item.WarehouseCode - @item.WarehouseName</td>
+                <td>@item.Quantity.ToString("N4")</td>
+                <td>@item.ReorderPoint</td>
+            </tr>
+        }
+        @if (Model.Result.Items.Count == 0)
+        {
+            <tr><td colspan="5" class="muted">No hay alertas de bajo stock.</td></tr>
+        }
+    </tbody>
+</table>
+
+<partial name="_Pagination" model="@(new PaginationInfo(Model.Result.Page, Model.Result.TotalPages))" />

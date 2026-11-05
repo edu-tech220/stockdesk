@@ -1,0 +1,64 @@
+@page
+@model StockDesk.Web.Pages.Warehouses.IndexModel
+@{
+    ViewData["Title"] = "Almacenes";
+}
+
+<h1>Almacenes</h1>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-error">@Model.ErrorMessage</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+
+@if (Model.IsAdmin)
+{
+    <details class="form-card collapsible">
+        <summary>Registrar nuevo almacén</summary>
+        <form method="post">
+            <div class="field">
+                <label asp-for="Input.Code">Código</label>
+                <input asp-for="Input.Code" />
+            </div>
+            <div class="field">
+                <label asp-for="Input.Name">Nombre</label>
+                <input asp-for="Input.Name" />
+            </div>
+            <div class="field">
+                <label asp-for="Input.Location">Ubicación</label>
+                <input asp-for="Input.Location" />
+            </div>
+            <button type="submit" class="btn btn-primary">Crear almacén</button>
+        </form>
+    </details>
+}
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Ubicación</th>
+            <th>Activo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var w in Model.Warehouses)
+        {
+            <tr>
+                <td>@w.Code</td>
+                <td>@w.Name</td>
+                <td>@w.Location</td>
+                <td>@(w.IsActive ? "Sí" : "No")</td>
+            </tr>
+        }
+        @if (Model.Warehouses.Count == 0)
+        {
+            <tr><td colspan="4" class="muted">No hay almacenes registrados.</td></tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,43 @@
+@using StockDesk.Web.ApiClient
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - StockDesk</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar">
+            <a class="brand" asp-page="/Index">StockDesk</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <ul class="nav-links">
+                    <li><a asp-page="/Stock/Index">Dashboard</a></li>
+                    <li><a asp-page="/Products/Index">Productos</a></li>
+                    <li><a asp-page="/Warehouses/Index">Almacenes</a></li>
+                    <li><a asp-page="/Movements/Index">Movimientos</a></li>
+                    <li><a asp-page="/Kardex/Index">Kardex</a></li>
+                    <li><a asp-page="/LowStock/Index">Alertas</a></li>
+                </ul>
+                <div class="user-info">
+                    <span>@User.GetUsername() (@User.GetRole())</span>
+                    <a asp-page="/Account/Logout" class="btn-logout">Salir</a>
+                </div>
+            }
+        </nav>
+    </header>
+    <main class="container">
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            StockDesk &mdash; gestión de inventario multi-almacén con costeo promedio ponderado.
+        </div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

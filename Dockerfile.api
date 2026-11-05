@@ -1,0 +1,27 @@
+# syntax=docker/dockerfile:1
+
+# ---- Etapa de build ----
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+COPY StockDesk.sln ./
+COPY src/StockDesk.Api/StockDesk.Api.csproj src/StockDesk.Api/
+COPY src/StockDesk.Web/StockDesk.Web.csproj src/StockDesk.Web/
+COPY tests/StockDesk.Api.Tests/StockDesk.Api.Tests.csproj tests/StockDesk.Api.Tests/
+
+RUN dotnet restore src/StockDesk.Api/StockDesk.Api.csproj
+
+COPY src/StockDesk.Api/ src/StockDesk.Api/
+
+RUN dotnet publish src/StockDesk.Api/StockDesk.Api.csproj -c Release -o /app/publish --no-restore
+
+# ---- Etapa final ----
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+
+COPY --from=build /app/publish .
+
+EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:8080
+
+ENTRYPOINT ["dotnet", "StockDesk.Api.dll"]

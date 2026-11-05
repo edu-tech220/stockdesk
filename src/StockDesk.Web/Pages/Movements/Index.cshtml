@@ -1,0 +1,139 @@
+@page
+@model StockDesk.Web.Pages.Movements.IndexModel
+@{
+    ViewData["Title"] = "Registrar movimiento";
+}
+
+<h1>Registrar movimiento de inventario</h1>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-error">@Model.ErrorMessage</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+
+<div class="tabs">
+    <a href="?tab=in" class="tab-link @(Model.Tab == "in" ? "active" : "")">Entrada</a>
+    <a href="?tab=out" class="tab-link @(Model.Tab == "out" ? "active" : "")">Salida</a>
+    <a href="?tab=transfer" class="tab-link @(Model.Tab == "transfer" ? "active" : "")">Transferencia</a>
+</div>
+
+@if (Model.Tab == "in")
+{
+    <form method="post" asp-page-handler="In" class="form-card">
+        <div class="field">
+            <label asp-for="InRequest.ProductId">Producto</label>
+            <select asp-for="InRequest.ProductId">
+                <option value="">Seleccione...</option>
+                @foreach (var p in Model.Products)
+                {
+                    <option value="@p.Id">@p.Sku - @p.Name</option>
+                }
+            </select>
+        </div>
+        <div class="field">
+            <label asp-for="InRequest.WarehouseId">Almacén</label>
+            <select asp-for="InRequest.WarehouseId">
+                <option value="">Seleccione...</option>
+                @foreach (var w in Model.Warehouses)
+                {
+                    <option value="@w.Id">@w.Code - @w.Name</option>
+                }
+            </select>
+        </div>
+        <div class="field">
+            <label asp-for="InRequest.Quantity">Cantidad</label>
+            <input asp-for="InRequest.Quantity" type="number" step="0.0001" min="0.0001" />
+        </div>
+        <div class="field">
+            <label asp-for="InRequest.UnitCost">Costo unitario</label>
+            <input asp-for="InRequest.UnitCost" type="number" step="0.0001" min="0" />
+        </div>
+        <div class="field">
+            <label asp-for="InRequest.Note">Nota</label>
+            <input asp-for="InRequest.Note" />
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar entrada</button>
+    </form>
+}
+else if (Model.Tab == "out")
+{
+    <form method="post" asp-page-handler="Out" class="form-card">
+        <div class="field">
+            <label asp-for="OutRequest.ProductId">Producto</label>
+            <select asp-for="OutRequest.ProductId">
+                <option value="">Seleccione...</option>
+                @foreach (var p in Model.Products)
+                {
+                    <option value="@p.Id">@p.Sku - @p.Name</option>
+                }
+            </select>
+        </div>
+        <div class="field">
+            <label asp-for="OutRequest.WarehouseId">Almacén</label>
+            <select asp-for="OutRequest.WarehouseId">
+                <option value="">Seleccione...</option>
+                @foreach (var w in Model.Warehouses)
+                {
+                    <option value="@w.Id">@w.Code - @w.Name</option>
+                }
+            </select>
+        </div>
+        <div class="field">
+            <label asp-for="OutRequest.Quantity">Cantidad</label>
+            <input asp-for="OutRequest.Quantity" type="number" step="0.0001" min="0.0001" />
+        </div>
+        <div class="field">
+            <label asp-for="OutRequest.Note">Nota</label>
+            <input asp-for="OutRequest.Note" />
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar salida</button>
+    </form>
+}
+else
+{
+    <form method="post" asp-page-handler="Transfer" class="form-card">
+        <div class="field">
+            <label asp-for="TransferRequest.ProductId">Producto</label>
+            <select asp-for="TransferRequest.ProductId">
+                <option value="">Seleccione...</option>
+                @foreach (var p in Model.Products)
+                {
+                    <option value="@p.Id">@p.Sku - @p.Name</option>
+                }
+            </select>
+        </div>
+        <div class="field">
+            <label asp-for="TransferRequest.SourceWarehouseId">Almacén origen</label>
+            <select asp-for="TransferRequest.SourceWarehouseId">
+                <option value="">Seleccione...</option>
+                @foreach (var w in Model.Warehouses)
+                {
+                    <option value="@w.Id">@w.Code - @w.Name</option>
+                }
+            </select>
+        </div>
+        <div class="field">
+            <label asp-for="TransferRequest.DestinationWarehouseId">Almacén destino</label>
+            <select asp-for="TransferRequest.DestinationWarehouseId">
+                <option value="">Seleccione...</option>
+                @foreach (var w in Model.Warehouses)
+                {
+                    <option value="@w.Id">@w.Code - @w.Name</option>
+                }
+            </select>
+        </div>
+        <div class="field">
+            <label asp-for="TransferRequest.Quantity">Cantidad</label>
+            <input asp-for="TransferRequest.Quantity" type="number" step="0.0001" min="0.0001" />
+        </div>
+        <div class="field">
+            <label asp-for="TransferRequest.Note">Nota</label>
+            <input asp-for="TransferRequest.Note" />
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar transferencia</button>
+    </form>
+}
