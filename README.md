@@ -138,9 +138,9 @@ Log in with `admin` / `Admin123!`. The passwords and JWT key in `docker-compose.
    docker compose up sqlserver -d
    ```
    or point `ConnectionStrings:Default` in `src/StockDesk.Api/appsettings.json` (or environment variables) to your own instance.
-2. Backend — the web app expects the API at `http://localhost:5080` by default (`Api:BaseUrl`), so run it on that port:
+2. Backend (listens on http://localhost:5080, the address the web app expects in `Api:BaseUrl`):
    ```bash
-   dotnet run --project src/StockDesk.Api/StockDesk.Api.csproj --urls http://localhost:5080
+   dotnet run --project src/StockDesk.Api/StockDesk.Api.csproj
    ```
    The API applies migrations automatically on startup and seeds the `admin` / `Admin123!` user. Swagger is available at `/swagger` in the Development environment.
 3. Frontend (in another terminal):
